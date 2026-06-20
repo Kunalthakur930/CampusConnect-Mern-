@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../../Layout";
 import "./ManageUsers.css";
-
+import { API_URL } from "../../../config";
 function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [filterRole, setFilterRole] = useState("all");
@@ -14,7 +14,7 @@ function ManageUsers() {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await fetch("http://localhost:5000/api/admin/users", {
+    const res = await fetch(`${API_URL}/api/admin/users`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -28,7 +28,7 @@ function ManageUsers() {
   const deleteUser = async (id) => {
     if (!window.confirm("Delete this user?")) return;
 
-    await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+    await fetch(`${API_URL}/api/admin/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,16 +49,13 @@ function ManageUsers() {
         }
       });
 
-      const res = await fetch(
-        `http://localhost:5000/api/admin/users/${editUser._id}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
-          },
-          body: formData, // 
+      const res = await fetch(`${API_URL}/api/admin/users/${editUser._id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+        body: formData, //
+      });
 
       if (res.ok) {
         alert("Updated!");
@@ -165,7 +162,7 @@ function ManageUsers() {
                 <img
                   src={
                     u.profilePhoto
-                      ? `http://localhost:5000${u.profilePhoto}`
+                      ? `${API_URL}${u.profilePhoto}`
                       : "/default.png"
                   }
                   alt="profile"
@@ -259,7 +256,7 @@ function ManageUsers() {
 
               {editUser.role === "student" && (
                 <>
-                <label>Course</label>
+                  <label>Course</label>
                   <input
                     value={editUser.course || ""}
                     placeholder="Course"
@@ -288,7 +285,7 @@ function ManageUsers() {
 
               {editUser.role === "faculty" && (
                 <>
-                <label>Department</label>
+                  <label>Department</label>
                   <input
                     value={editUser.department || ""}
                     placeholder="Department"

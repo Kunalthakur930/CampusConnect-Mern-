@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./FacultyDashboard.css";
 import { Megaphone, BellPlus, Calendar, PlusCircle, LayoutDashboard, ChevronRight, Briefcase } from "lucide-react";
-
+import { API_URL } from "../config";
 function FacultyDashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5000/api/dashboard/faculty", {
+      const res = await fetch(`${API_URL}/api/dashboard/faculty`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const result = await res.json();
       setData(result);

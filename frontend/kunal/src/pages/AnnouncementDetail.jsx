@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./AnnouncementDetail.css";
 import { ArrowLeft, Calendar, FileText, Download, Loader2, Image as ImageIcon } from "lucide-react";
+import { API_URL } from "../config";
 
 function AnnouncementDetail() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function AnnouncementDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/announcements/${id}`, {
+        const res = await fetch(`${API_URL}/api/announcements/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -54,7 +55,13 @@ function AnnouncementDetail() {
             <div className="ann-meta-strip">
               <div className="meta-item">
                 <Calendar size={14} />
-                <span>{new Date(announcement.createdAt).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                <span>
+                  {new Date(announcement.createdAt).toLocaleString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
               </div>
               <div className="meta-item">
                 <FileText size={14} />
@@ -77,17 +84,22 @@ function AnnouncementDetail() {
               {announcement.attachment.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                 <div className="image-preview-wrapper">
                   <img
-                    src={`http://localhost:5000${announcement.attachment}`}
+                    src={`${API_URL}${announcement.attachment}`}
                     alt="attachment"
                     className="ann-image-preview"
                   />
-                  <a href={`http://localhost:5000${announcement.attachment}`} target="_blank" rel="noreferrer" className="overlay-dl">
+                  <a
+                    href={`${API_URL}${announcement.attachment}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="overlay-dl"
+                  >
                     <Download size={20} /> View Full Image
                   </a>
                 </div>
               ) : (
                 <a
-                  href={`http://localhost:5000${announcement.attachment}`}
+                  href={`${API_URL}${announcement.attachment}`}
                   target="_blank"
                   rel="noreferrer"
                   className="modern-dl-btn"

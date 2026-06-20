@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./CreateReminder.css";
 import { BellPlus, Calendar, Type, FileText, Trash2, Edit, X, Save } from "lucide-react";
-
+import { API_URL } from "../config";
 function CreateReminder() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -12,7 +12,7 @@ function CreateReminder() {
   const token = localStorage.getItem("token");
 
   const fetchReminders = async () => {
-    const res = await fetch("http://localhost:5000/api/reminders", {
+    const res = await fetch(`${API_URL}/api/reminders`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -25,7 +25,9 @@ function CreateReminder() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = editingId ? `http://localhost:5000/api/reminders/${editingId}` : "http://localhost:5000/api/reminders";
+    const url = editingId
+      ? `${API_URL}/api/reminders/${editingId}`
+      : `${API_URL}/api/reminders`;
     const method = editingId ? "PUT" : "POST";
 
     await fetch(url, {
@@ -50,7 +52,7 @@ function CreateReminder() {
 
   const deleteReminder = async (id) => {
     if (!window.confirm("Delete this reminder?")) return;
-    await fetch(`http://localhost:5000/api/reminders/${id}`, {
+    await fetch(`${API_URL}/api/reminders/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

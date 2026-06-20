@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./MyProfile.css";
+import { API_URL } from "../config";
 import {
   User,
   Mail,
@@ -17,7 +18,7 @@ function Profile() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const res = await fetch("http://localhost:5000/api/auth/profile", {
+      const res = await fetch(fetch(`${API_URL}/api/auth/profile`), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +35,7 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:5000/api/auth/profile", {
+    await fetch(fetch(`${API_URL}/api/auth/profile`), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +61,7 @@ function Profile() {
               <img
                 src={
                   formData.profilePhoto
-                    ? `http://localhost:5000${formData.profilePhoto}`
+                    ? `${API_URL}${formData.profilePhoto}`
                     : "/default.png"
                 }
                 alt="Profile"

@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./ManageAnnouncements.css";
-import { Megaphone, Trash2, Edit3, Paperclip, X, CheckCircle } from "lucide-react";
-
+import {
+  Megaphone,
+  Trash2,
+  Edit3,
+  Paperclip,
+  X,
+  CheckCircle,
+} from "lucide-react";
+import { API_URL } from "../config";
 function ManageAnnouncements() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,17 +20,19 @@ function ManageAnnouncements() {
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
-      const res = await fetch("http://localhost:5000/api/announcements", {
+      const res = await fetch(`${API_URL}/api/announcements`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       const data = await res.json();
-      const myId = JSON.parse(atob(localStorage.getItem("token").split(".")[1])).id;
+      const myId = JSON.parse(
+        atob(localStorage.getItem("token").split(".")[1]),
+      ).id;
 
       const myAnnouncements = data.filter(
-        (a) => a.postedBy?._id === myId || a.postedBy === myId
+        (a) => a.postedBy?._id === myId || a.postedBy === myId,
       );
 
       setAnnouncements(myAnnouncements);
@@ -35,7 +44,7 @@ function ManageAnnouncements() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this announcement?")) return;
-    await fetch(`http://localhost:5000/api/announcements/${id}`, {
+    await fetch(`${API_URL}/api/announcements/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -48,24 +57,30 @@ function ManageAnnouncements() {
     formData.append("content", editContent);
     if (editFile) formData.append("attachment", editFile);
 
-    await fetch(`http://localhost:5000/api/announcements/${id}`, {
+    await fetch(`${API_URL}/api/announcements/${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       body: formData,
     });
 
     setAnnouncements((prev) =>
-      prev.map((a) => (a._id === id ? { ...a, title: editTitle, content: editContent } : a))
+      prev.map((a) =>
+        a._id === id ? { ...a, title: editTitle, content: editContent } : a,
+      ),
     );
     setEditingId(null);
     setEditFile(null);
   };
 
-  if (loading) return (
-    <Layout>
-      <div className="loader-container"><div className="spinner"></div><p>Loading Announcements...</p></div>
-    </Layout>
-  );
+  if (loading)
+    return (
+      <Layout>
+        <div className="loader-container">
+          <div className="spinner"></div>
+          <p>Loading Announcements...</p>
+        </div>
+      </Layout>
+    );
 
   return (
     <Layout>
@@ -86,34 +101,52 @@ function ManageAnnouncements() {
         ) : (
           <div className="ann-list-grid">
             {announcements.map((a) => (
-              <div key={a._id} className={`ann-card ${editingId === a._id ? 'editing' : ''}`}>
-                
+              <div
+                key={a._id}
+                className={`ann-card ${editingId === a._id ? "editing" : ""}`}
+              >
                 {editingId === a._id ? (
                   /* --- EDIT MODE --- */
                   <div className="edit-mode-form">
                     <h3>Edit Post</h3>
-                    <input 
+                    <input
                       className="edit-input"
-                      value={editTitle} 
-                      onChange={(e) => setEditTitle(e.target.value)} 
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
                       placeholder="Announcement Title"
                     />
-                    <textarea 
+                    <textarea
                       className="edit-textarea"
-                      value={editContent} 
-                      onChange={(e) => setEditContent(e.target.value)} 
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
                       placeholder="Write your message here..."
                     />
                     <div className="file-edit-group">
-                       <label htmlFor="file-edit" className="file-edit-label">
-                         <Paperclip size={16} /> Update Attachment
-                       </label>
-                       <input id="file-edit" type="file" onChange={(e) => setEditFile(e.target.files[0])} />
-                       {editFile && <span className="file-name-hint">{editFile.name}</span>}
+                      <label htmlFor="file-edit" className="file-edit-label">
+                        <Paperclip size={16} /> Update Attachment
+                      </label>
+                      <input
+                        id="file-edit"
+                        type="file"
+                        onChange={(e) => setEditFile(e.target.files[0])}
+                      />
+                      {editFile && (
+                        <span className="file-name-hint">{editFile.name}</span>
+                      )}
                     </div>
                     <div className="edit-actions">
-                      <button className="save-btn" onClick={() => handleUpdate(a._id)}><CheckCircle size={18}/> Update</button>
-                      <button className="cancel-btn" onClick={() => setEditingId(null)}><X size={18}/> Cancel</button>
+                      <button
+                        className="save-btn"
+                        onClick={() => handleUpdate(a._id)}
+                      >
+                        <CheckCircle size={18} /> Update
+                      </button>
+                      <button
+                        className="cancel-btn"
+                        onClick={() => setEditingId(null)}
+                      >
+                        <X size={18} /> Cancel
+                      </button>
                     </div>
                   </div>
                 ) : (
@@ -123,20 +156,31 @@ function ManageAnnouncements() {
                       <h3>{a.title}</h3>
                       <p>{a.content}</p>
                       {a.attachment && (
-                        <a href={`http://localhost:5000${a.attachment}`} target="_blank" rel="noreferrer" className="view-attach">
+                        <a
+                          href={`${API_URL}${a.attachment}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="view-attach"
+                        >
                           <Paperclip size={14} /> View File
                         </a>
                       )}
                     </div>
                     <div className="ann-card-footer">
-                      <button className="icon-btn edit" onClick={() => {
-                        setEditingId(a._id);
-                        setEditTitle(a.title);
-                        setEditContent(a.content);
-                      }}>
+                      <button
+                        className="icon-btn edit"
+                        onClick={() => {
+                          setEditingId(a._id);
+                          setEditTitle(a.title);
+                          setEditContent(a.content);
+                        }}
+                      >
                         <Edit3 size={18} /> Edit
                       </button>
-                      <button className="icon-btn delete" onClick={() => handleDelete(a._id)}>
+                      <button
+                        className="icon-btn delete"
+                        onClick={() => handleDelete(a._id)}
+                      >
                         <Trash2 size={18} /> Delete
                       </button>
                     </div>

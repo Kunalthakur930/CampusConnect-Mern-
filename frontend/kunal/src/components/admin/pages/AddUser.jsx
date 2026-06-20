@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Layout from "../../Layout";
 import "./AddUser.css";
+import { API_URL } from "../../../config";
 import {
   UserPlus,
   User,
@@ -54,7 +55,7 @@ function AddUser() {
         }
       });
 
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         body: formData,
       });

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Layout from "../components/Layout";
 import "./Chat.css";
 import { Send, Bot, User, Sparkles, Loader2 } from "lucide-react";
-
+import { API_URL } from "../config";
 function Chat() {
   const [messages, setMessages] = useState([
     {
@@ -25,7 +25,8 @@ function Chat() {
 
     try {
       
-      const response = await fetch("http://localhost:5000/api/chat", {
+      const response = await fetch(`${API_URL}/api/chat`
+        , {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

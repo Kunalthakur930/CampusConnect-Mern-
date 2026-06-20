@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useState, useEffect } from "react";
 import { Bell, Menu, X, Search } from "lucide-react";
+import { API_URL } from "../config";
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -24,7 +25,7 @@ function Navbar() {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/search?q=${value}`, {
+    const res = await fetch(`${API_URL}/api/search?q=${value}`, {
       headers: {
         Authorization: ` Bearer ${localStorage.getItem("token")}`,
       },
@@ -43,7 +44,7 @@ function Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/profile", {
+        const res = await fetch(`${API_URL}/api/auth/profile`, {
           headers: {
             Authorization: ` Bearer ${localStorage.getItem("token")}`,
           },
@@ -57,7 +58,7 @@ function Navbar() {
 
     const fetchNotifications = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/notifications", {
+        const res = await fetch(`${API_URL}/api/notifications`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -82,7 +83,7 @@ function Navbar() {
 
   const markAsRead = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+      await fetch(`${API_URL}/api/notifications/${id}/read`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -99,7 +100,8 @@ function Navbar() {
 
   const markAllAsRead = async () => {
     try {
-      await fetch("http://localhost:5000/api/notifications/read-all", {
+      await fetch(`${API_URL}/api/notifications/read-all`
+        , {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -283,7 +285,7 @@ function Navbar() {
                 <img
                   src={
                     user.profilePhoto
-                      ? `http://localhost:5000${user.profilePhoto}`
+                      ? `${API_URL}${user.profilePhoto}`
                       : "/default.png"
                   }
                   className="nav-profile"

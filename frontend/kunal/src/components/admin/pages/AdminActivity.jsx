@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import Layout from "../../Layout";
 import "./AdminActivity.css";
-import { Activity, Megaphone, Clock, Paperclip, Calendar, User } from "lucide-react";
-
+import {
+  Activity,
+  Megaphone,
+  Clock,
+  Paperclip,
+  Calendar,
+  User,
+} from "lucide-react";
+import { API_URL } from "../../../config";
 function AdminActivity() {
   const [activities, setActivities] = useState([]);
   const [filter, setFilter] = useState("all");
@@ -13,7 +20,7 @@ function AdminActivity() {
 
   const fetchActivity = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/activity", {
+      const res = await fetch(`${API_URL}/api/activity`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -40,16 +47,29 @@ function AdminActivity() {
             <Activity className="icon-main" size={30} />
             <div>
               <h1>System Activity Logs</h1>
-              <p>Monitor all announcements and reminders posted on the platform</p>
+              <p>
+                Monitor all announcements and reminders posted on the platform
+              </p>
             </div>
           </div>
 
           <div className="filter-bar">
-            <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All Logs</button>
-            <button className={filter === "announcement" ? "active" : ""} onClick={() => setFilter("announcement")}>
+            <button
+              className={filter === "all" ? "active" : ""}
+              onClick={() => setFilter("all")}
+            >
+              All Logs
+            </button>
+            <button
+              className={filter === "announcement" ? "active" : ""}
+              onClick={() => setFilter("announcement")}
+            >
               <Megaphone size={16} /> Announcements
             </button>
-            <button className={filter === "reminder" ? "active" : ""} onClick={() => setFilter("reminder")}>
+            <button
+              className={filter === "reminder" ? "active" : ""}
+              onClick={() => setFilter("reminder")}
+            >
               <Clock size={16} /> Reminders
             </button>
           </div>
@@ -60,28 +80,41 @@ function AdminActivity() {
             filteredData.map((a, i) => (
               <div key={i} className={`activity-card ${a.type}`}>
                 <div className="card-left">
-                   <div className="type-icon">
-                      {a.type === "announcement" ? <Megaphone size={20} /> : <Clock size={20} />}
-                   </div>
+                  <div className="type-icon">
+                    {a.type === "announcement" ? (
+                      <Megaphone size={20} />
+                    ) : (
+                      <Clock size={20} />
+                    )}
+                  </div>
                 </div>
-                
+
                 <div className="card-right">
                   <div className="card-header">
                     <h3>{a.title}</h3>
                     <span className={`status-badge ${a.type}`}>{a.type}</span>
                   </div>
-                  
+
                   <p className="activity-content">{a.content}</p>
 
                   {a.attachment && (
-                    <a href={`http://localhost:5000${a.attachment}`} target="_blank" rel="noreferrer" className="attachment-link">
+                    <a
+                      href={`${API_URL}${a.attachment}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="attachment-link"
+                    >
                       <Paperclip size={14} /> View Attached File
                     </a>
                   )}
 
                   <div className="activity-meta">
-                    <span><User size={14} /> {a.user}</span>
-                    <span><Calendar size={14} /> {new Date(a.time).toLocaleString()}</span>
+                    <span>
+                      <User size={14} /> {a.user}
+                    </span>
+                    <span>
+                      <Calendar size={14} /> {new Date(a.time).toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>

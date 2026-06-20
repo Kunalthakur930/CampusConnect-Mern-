@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../../Layout";
 import "./AdminDashboard.css";
 import { Users, UserCheck, UserCog, Megaphone, Clock, PlusCircle, Activity } from "lucide-react";
+import { API_URL } from "../../../config";
 
 function AdminDashboard() {
   const [stats, setStats] = useState({});
@@ -16,7 +17,7 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/stats", {
+      const res = await fetch(`${API_URL}/api/admin/stats`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -30,7 +31,7 @@ function AdminDashboard() {
 
   const fetchActivity = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/activity", {
+      const res = await fetch(`${API_URL}/api/activity`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -44,7 +45,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/users", {
+      const res = await fetch(`${API_URL}/api/admin/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

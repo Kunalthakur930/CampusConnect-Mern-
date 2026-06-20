@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import "./ChangePassword.css";
 import { Lock, ShieldCheck, KeyRound } from "lucide-react";
+import { API_URL } from "../config";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -16,7 +17,7 @@ function ChangePassword() {
       alert("New password do not match");
       return;
     }
-    const res = await fetch("http://localhost:5000/api/auth/change-password", {
+    const res = await fetch(`${API_URL}/api/auth/change-password`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

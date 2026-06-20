@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { Mail, Lock, LogIn, Sparkles } from "lucide-react";
+import { API_URL } from "../config";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -39,7 +40,7 @@ function Login() {
       <div className="login-visuals">
         <div className="glow-sphere"></div>
       </div>
-      
+
       <div className="login-card">
         <div className="login-header">
           <div className="logo-icon">
@@ -51,7 +52,9 @@ function Login() {
 
         <div className="login-form">
           <div className="input-field">
-            <label><Mail size={16} /> Email Address</label>
+            <label>
+              <Mail size={16} /> Email Address
+            </label>
             <input
               type="email"
               placeholder="name@college.edu"
@@ -62,7 +65,9 @@ function Login() {
           </div>
 
           <div className="input-field">
-            <label><Lock size={16} /> Password</label>
+            <label>
+              <Lock size={16} /> Password
+            </label>
             <input
               type="password"
               placeholder="••••••••"

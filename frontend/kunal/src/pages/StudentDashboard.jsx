@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./StudentDashboard.css";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 import {
   Megaphone,
   Clock,
@@ -19,7 +20,7 @@ function StudentDashboard() {
 
   useEffect(() => {
     const fetchDashboard = async () => {
-      const res = await fetch("http://localhost:5000/api/dashboard/student", {
+      const res = await fetch(`${API_URL}/api/dashboard/student`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import Layout from "../components/Layout";
 import "./PostAnnouncement.css";
 import { Send, Type, FileText, Upload, AlertCircle, CheckCircle2 } from "lucide-react";
-
+import { API_URL } from "../config";
 function PostAnnouncement() {
   const [form, setForm] = useState({
     title: "",
@@ -26,7 +26,7 @@ function PostAnnouncement() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/announcements", {
+      const res = await fetch(`${API_URL}/api/announcements`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

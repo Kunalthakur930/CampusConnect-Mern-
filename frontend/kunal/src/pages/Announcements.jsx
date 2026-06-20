@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./Announcements.css";
 import { Megaphone, Paperclip, Calendar, User, Info, Loader2 } from "lucide-react";
+import { API_URL } from "../config";
 
 function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
@@ -10,7 +11,7 @@ function Announcements() {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/announcements", {
+        const response = await fetch(`${API_URL}/api/announcements`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -61,7 +62,7 @@ function Announcements() {
 
                   {item.attachment && (
                     <a
-                      href={`http://localhost:5000${item.attachment}`}
+                      href={`${API_URL}${item.attachment}`}
                       target="_blank"
                       rel="noreferrer"
                       className="download-btn"
@@ -74,11 +75,19 @@ function Announcements() {
                 <div className="ann-card-footer">
                   <div className="meta">
                     <User size={14} />
-                    <span>{item.postedBy?.name || item.postedBy?.email.split('@')[0]}</span>
+                    <span>
+                      {item.postedBy?.name ||
+                        item.postedBy?.email.split("@")[0]}
+                    </span>
                   </div>
                   <div className="meta">
                     <Calendar size={14} />
-                    <span>{new Date(item.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
+                    <span>
+                      {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </span>
                   </div>
                 </div>
               </div>

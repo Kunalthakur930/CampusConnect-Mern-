@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "./ReminderDetail.css";
 import { ArrowLeft, Clock, Calendar, User, Info, CheckCircle2 } from "lucide-react";
-
+import { API_URL } from "../config";
 function ReminderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function ReminderDetail() {
 
   useEffect(() => {
     const fetchReminder = async () => {
-      const res = await fetch(`http://localhost:5000/api/reminders/${id}`, {
+      const res = await fetch(`${API_URL}/api/reminders/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

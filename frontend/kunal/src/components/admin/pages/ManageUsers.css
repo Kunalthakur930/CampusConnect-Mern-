@@ -1,0 +1,228 @@
+:root {
+  --bg-dark: #0a0118;
+  --card-bg: #16082d;
+  --accent: #a855f7;
+  --text-main: #faf5ff;
+  --text-dim: #94a3b8;
+  --border: #2d1b4e;
+  --danger: #ef4444;
+  --success: #10b981;
+}
+
+.admin-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--card-bg);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 30px;
+  align-items: center;
+  width: fit-content; 
+  max-width: 100%;
+}
+
+.top-bar input {
+  width: 320px; 
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.top-bar select {
+  width: 180px; 
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.top-bar input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+  width: 380px; /* Focus par halka expansion */
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.user-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.profile-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  margin-bottom: 15px;
+}
+
+.user-card h3 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: var(--text-main);
+}
+
+.user-card p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 4px;
+}
+
+.role {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(168, 85, 247, 0.2);
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.user-card .actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.user-card .actions button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.user-card .actions button:first-child {
+  background: var(--accent);
+  color: white;
+}
+
+.user-card .actions button:last-child {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.user-card .actions button:hover { opacity: 0.8; }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal-box {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-box h3 { margin-bottom: 20px; color: var(--accent); }
+
+.modal-box input {
+  width: 100%;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: white;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.modal-box label{
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-actions button:first-child { background: var(--success); color: white; }
+.modal-actions button:last-child { background: var(--text-dim); color: white; }
+
+@media (max-width: 768px) {
+  .top-bar { 
+    width: 100%; 
+    flex-direction: column; 
+    align-items: stretch; 
+  }
+  
+  .top-bar input, 
+  .top-bar select { 
+    width: 100% !important; /* Mobile par full width wapas */
+  }
+
+  .card-grid { grid-template-columns: 1fr; }
+}

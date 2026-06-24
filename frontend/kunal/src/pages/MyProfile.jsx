@@ -15,17 +15,22 @@ import {
 function Profile() {
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("token");
-
   useEffect(() => {
     const fetchProfile = async () => {
-      const res = await fetch(fetch(`${API_URL}/api/auth/profile`), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      setFormData(data);
+      try {
+        const res = await fetch(`${API_URL}/api/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        setFormData(data);
+      } catch (error) {
+        console.log(error);
+      }
     };
+
     fetchProfile();
   }, [token]);
 
